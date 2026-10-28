@@ -206,15 +206,15 @@ void bdw_update_port_irq(struct intel_display *display,
 	if (drm_WARN_ON(display->drm, !intel_parent_irq_enabled(display)))
 		return;
 
-	old_val = intel_de_read_fw(display, GEN8_DE_PORT_IMR);
+	old_val = intel_de_read(display, GEN8_DE_PORT_IMR);
 
 	new_val = old_val;
 	new_val &= ~interrupt_mask;
 	new_val |= (~enabled_irq_mask & interrupt_mask);
 
 	if (new_val != old_val) {
-		intel_de_write_fw(display, GEN8_DE_PORT_IMR, new_val);
-		intel_de_posting_read_fw(display, GEN8_DE_PORT_IMR);
+		intel_de_write(display, GEN8_DE_PORT_IMR, new_val);
+		intel_de_posting_read(display, GEN8_DE_PORT_IMR);
 	}
 }
 
@@ -244,8 +244,8 @@ static void bdw_update_pipe_irq(struct intel_display *display,
 
 	if (new_val != display->irq.de_pipe_imr_mask[pipe]) {
 		display->irq.de_pipe_imr_mask[pipe] = new_val;
-		intel_de_write_fw(display, GEN8_DE_PIPE_IMR(pipe), display->irq.de_pipe_imr_mask[pipe]);
-		intel_de_posting_read_fw(display, GEN8_DE_PIPE_IMR(pipe));
+		intel_de_write(display, GEN8_DE_PIPE_IMR(pipe), display->irq.de_pipe_imr_mask[pipe]);
+		intel_de_posting_read(display, GEN8_DE_PIPE_IMR(pipe));
 	}
 }
 
